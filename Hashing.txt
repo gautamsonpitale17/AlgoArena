@@ -1,0 +1,949 @@
+✅1. Two Sum
+
+    Explanation: Given an array of integers and a target value, return the indices of two numbers whose sum equals the target.
+
+    Input: nums = [2,7,11,15], target = 9
+
+    Output: [0,1]
+
+    Clarifying Questions For Interviewer:
+    1. Is there always exactly one valid answer?
+    2. Can the array contain duplicate values?
+    3. Can numbers be negative?
+    4. Should we return indices or actual values?
+    5. Can we use extra space?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Check every possible pair and see if their sum equals the target.
+
+    Steps:
+    1. Pick one element
+    2. Compare it with every next element
+    3. If sum equals target, return indices
+
+    Python Code:
+
+    class Solution:
+        def twoSum(self, nums, target):
+
+            for i in range(len(nums)):
+                for j in range(i + 1, len(nums)):
+
+                    if nums[i] + nums[j] == target:
+                        return [i, j]
+
+    Time Complexity: O(n^2)
+
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - It checks all possible pairs
+    - Nested loops make it slow for large arrays
+    - Many unnecessary comparisons are performed
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a hashmap to store visited numbers and their indices for fast lookup.
+
+    Steps:
+    1. Create a hashmap
+    2. For each number, calculate complement
+    3. If complement exists in hashmap, return answer
+    4. Otherwise store current number in hashmap
+
+    Python Code:
+
+    class Solution:
+        def twoSum(self, nums, target):
+
+            hashmap = {}
+
+            for i in range(len(nums)):
+
+                complement = target - nums[i]
+
+                if complement in hashmap:
+                    return [hashmap[complement], i]
+
+                hashmap[nums[i]] = i
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Hashmap provides fast lookup
+    - Each element is processed only once
+    - Avoids unnecessary pair comparisons
+
+✅2. Valid Anagram
+
+    Explanation: Given two strings, determine if one string is an anagram of the other (both contain the same characters with the same frequency).
+
+    Input: s = "anagram", t = "nagaram"
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Are the strings case-sensitive?
+    2. Can the strings contain spaces or special characters?
+    3. Should we consider only lowercase English letters?
+    4. Can the input strings be empty?
+    5. Are both strings guaranteed to be the same length?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Sort both strings and compare them.
+
+    Steps:
+    1. Convert strings to arrays
+    2. Sort both arrays
+    3. Compare sorted versions
+
+    Python Code:
+
+    class Solution:
+        def isAnagram(self, s, t):
+
+            return sorted(s) == sorted(t)
+
+    Time Complexity: O(n log n)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Sorting takes extra time
+    - Not optimal for large inputs
+    - Repeated character scanning during sorting
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a hashmap (frequency count) to count characters in both strings and compare.
+
+    Steps:
+    1. Count frequency of characters in first string
+    2. Subtract frequency using second string
+    3. If all values become zero, it's valid anagram
+
+    Python Code:
+
+    class Solution:
+        def isAnagram(self, s, t):
+
+            if len(s) != len(t):
+                return False
+
+            freq = {}
+
+            for ch in s:
+                freq[ch] = freq.get(ch, 0) + 1
+
+            for ch in t:
+                if ch not in freq:
+                    return False
+                freq[ch] -= 1
+
+            for value in freq.values():
+                if value != 0:
+                    return False
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)  # (fixed alphabet size assumption)
+
+    Why It Works?
+    Because:
+    - Each character is counted only once
+    - Frequency comparison ensures exact match
+    - No sorting needed, so faster
+
+✅3. Contains Duplicate
+
+    Explanation: Given an integer array, return true if any value appears at least twice, otherwise return false.
+
+    Input: nums = [1,2,3,1]
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Can the array be empty?
+    3. Should we return immediately when duplicate is found?
+    4. Do we need to find which element is duplicated or just return true/false?
+    5. Can we modify the input array?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Compare every element with every other element.
+
+    Steps:
+    1. Pick one element
+    2. Compare with all remaining elements
+    3. If any match found, return true
+
+    Python Code:
+
+    class Solution:
+        def containsDuplicate(self, nums):
+
+            for i in range(len(nums)):
+                for j in range(i + 1, len(nums)):
+
+                    if nums[i] == nums[j]:
+                        return True
+
+            return False
+
+    Time Complexity: O(n^2)
+
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Nested loops make it slow for large arrays
+    - Many redundant comparisons
+    - Not scalable for big input sizes
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a set to track seen elements. If an element is already in the set, it's a duplicate.
+
+    Steps:
+    1. Create an empty set
+    2. Traverse the array
+    3. If element already in set → return True
+    4. Else add it to set
+
+    Python Code:
+
+    class Solution:
+        def containsDuplicate(self, nums):
+
+            seen = set()
+
+            for num in nums:
+
+                if num in seen:
+                    return True
+
+                seen.add(num)
+
+            return False
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Set provides O(1) average lookup
+    - Each element is processed only once
+    - Early exit reduces unnecessary computation
+
+✅4. First Unique Character in a String
+
+    Explanation: Given a string, find the index of the first non-repeating character. If it doesn't exist, return -1.
+
+    Input: s = "leetcode"
+
+    Output: 0
+
+    Clarifying Questions For Interviewer:
+    1. Should the string be case-sensitive?
+    2. Can the string contain special characters or only alphabets?
+    3. What should be returned if no unique character exists?
+    4. Can the string be empty?
+    5. Do we need to return index or the character itself?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: For each character, count how many times it appears in the string.
+
+    Steps:
+    1. Pick each character one by one
+    2. Count its occurrences in the whole string
+    3. If count is 1, return its index
+
+    Python Code:
+
+    class Solution:
+        def firstUniqChar(self, s):
+
+            for i in range(len(s)):
+
+                count = 0
+
+                for j in range(len(s)):
+
+                    if s[i] == s[j]:
+                        count += 1
+
+                if count == 1:
+                    return i
+
+            return -1
+
+    Time Complexity: O(n^2)
+
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Repeated scanning of the string for each character
+    - Very slow for large strings
+    - Inefficient counting approach
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a hashmap (frequency count) to store character frequencies, then find the first index with frequency 1.
+
+    Steps:
+    1. Count frequency of each character
+    2. Traverse string again
+    3. Return first character with frequency 1
+
+    Python Code:
+
+    class Solution:
+        def firstUniqChar(self, s):
+
+            freq = {}
+
+            for ch in s:
+                freq[ch] = freq.get(ch, 0) + 1
+
+            for i in range(len(s)):
+                if freq[s[i]] == 1:
+                    return i
+
+            return -1
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Frequency is computed in one pass
+    - Second pass finds first unique character efficiently
+    - No repeated scanning of the string
+
+❌5. Happy Number
+
+    Explanation: A number is called a happy number if repeatedly replacing the number by the sum of the squares of its digits eventually leads to 1. If it enters a cycle that does not include 1, it is not a happy number.
+
+    Input: n = 19
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. What is the maximum value of n?
+    2. Should we assume n is always a positive integer?
+    3. How should we handle 0 or negative numbers?
+    4. Do we need to return True/False or also explain the cycle?
+    5. Is recursion allowed or should we use iteration?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Keep generating next number and store all seen numbers in a set. If 1 is reached → happy, if cycle detected → not happy.
+
+    Steps:
+    1. Create a set to track visited numbers
+    2. Compute sum of squares of digits repeatedly
+    3. If number becomes 1 return True
+    4. If number repeats return False
+
+    Python Code:
+
+    class Solution:
+        def isHappy(self, n):
+
+            seen = set()
+
+            while n != 1:
+
+                if n in seen:
+                    return False
+
+                seen.add(n)
+
+                next_num = 0
+                for digit in str(n):
+                    next_num += int(digit) * int(digit)
+
+                n = next_num
+
+            return True
+
+    Time Complexity: O(n log n) (depends on cycle length and digit processing)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra space to store all seen numbers
+    - Cycle detection relies on memory
+    - Not optimized for constant space
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use Floyd’s Cycle Detection (slow and fast pointer) to detect cycles without extra space.
+
+    Steps:
+    1. Define function to get sum of squares of digits
+    2. Use slow pointer (one step) and fast pointer (two steps)
+    3. If they meet at 1 → happy number
+    4. If they meet elsewhere → cycle detected
+
+    Python Code:
+
+    class Solution:
+        def isHappy(self, n):
+
+            def get_next(num):
+                total = 0
+                while num > 0:
+                    digit = num % 10
+                    total += digit * digit
+                    num //= 10
+                return total
+
+            slow = n
+            fast = get_next(n)
+
+            while fast != 1 and slow != fast:
+                slow = get_next(slow)
+                fast = get_next(get_next(fast))
+
+            return fast == 1
+
+    Time Complexity: O(log n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Cycle detection is done using two pointers
+    - No extra memory is used
+    - Efficiently detects loop in number transformation
+
+❌6. Isomorphic Strings
+
+    Explanation: Two strings are isomorphic if characters in the first string can be replaced to get the second string, maintaining the order and one-to-one mapping.
+
+    Input: s = "egg", t = "add"
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Are both strings guaranteed to be same length?
+    2. Can characters repeat in both strings?
+    3. Is mapping allowed to be one-to-many or strictly one-to-one?
+    4. Are we dealing only with ASCII/lowercase letters?
+    5. Should we consider case sensitivity?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Try building mapping while checking conflicts using arrays or manual checks.
+
+    Steps:
+    1. For each character in s, map it to corresponding character in t
+    2. Ensure no two characters map to same character
+    3. Validate consistency for entire string
+
+    Python Code:
+
+    class Solution:
+        def isIsomorphic(self, s, t):
+
+            map_st = {}
+            map_ts = {}
+
+            for i in range(len(s)):
+
+                c1 = s[i]
+                c2 = t[i]
+
+                if c1 in map_st and map_st[c1] != c2:
+                    return False
+
+                if c2 in map_ts and map_ts[c2] != c1:
+                    return False
+
+                map_st[c1] = c2
+                map_ts[c2] = c1
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses two hashmaps instead of optimized structure
+    - Extra memory for bidirectional mapping
+    - Not minimal approach
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use one-to-one mapping check using a dictionary and a set to ensure uniqueness.
+
+    Steps:
+    1. Maintain mapping from s → t
+    2. Track already mapped characters of t
+    3. If conflict occurs, return False
+    4. Otherwise continue mapping
+
+    Python Code:
+
+    class Solution:
+        def isIsomorphic(self, s, t):
+
+            map_dict = {}
+            used = set()
+
+            for i in range(len(s)):
+
+                if s[i] in map_dict:
+
+                    if map_dict[s[i]] != t[i]:
+                        return False
+
+                else:
+
+                    if t[i] in used:
+                        return False
+
+                    map_dict[s[i]] = t[i]
+                    used.add(t[i])
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Ensures one-to-one mapping constraint
+    - Prevents duplicate reverse mapping
+    - Efficient single-pass validation
+
+❌7. Word Pattern
+
+    Explanation: Given a pattern string and a string s, determine if s follows the same pattern. Each letter in pattern must map to a unique word in s.
+
+    Input: pattern = "abba", s = "dog cat cat dog"
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Can words be repeated in the string s?
+    2. Is the mapping strictly one-to-one?
+    3. Can pattern and string have different lengths?
+    4. Are words always separated by single spaces?
+    5. Should case sensitivity be considered?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Split string into words and try building mapping manually while checking consistency.
+
+    Steps:
+    1. Split string into words
+    2. If lengths mismatch, return False
+    3. Map each pattern character to word
+    4. Ensure no conflicts in mapping
+
+    Python Code:
+
+    class Solution:
+        def wordPattern(self, pattern, s):
+
+            words = s.split(" ")
+
+            if len(pattern) != len(words):
+                return False
+
+            map_ps = {}
+            map_sp = {}
+
+            for i in range(len(pattern)):
+
+                p = pattern[i]
+                w = words[i]
+
+                if p in map_ps and map_ps[p] != w:
+                    return False
+
+                if w in map_sp and map_sp[w] != p:
+                    return False
+
+                map_ps[p] = w
+                map_sp[w] = p
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses two hashmaps for validation
+    - Extra memory usage
+    - Not optimized minimal structure
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use one dictionary + one set to ensure one-to-one mapping between pattern and words.
+
+    Steps:
+    1. Split string into words
+    2. Check length mismatch
+    3. Use dictionary for pattern → word mapping
+    4. Use set to track used words
+    5. Validate mapping consistency
+
+    Python Code:
+
+    class Solution:
+        def wordPattern(self, pattern, s):
+
+            words = s.split()
+
+            if len(pattern) != len(words):
+                return False
+
+            mapping = {}
+            used = set()
+
+            for i in range(len(pattern)):
+
+                if pattern[i] in mapping:
+
+                    if mapping[pattern[i]] != words[i]:
+                        return False
+
+                else:
+
+                    if words[i] in used:
+                        return False
+
+                    mapping[pattern[i]] = words[i]
+                    used.add(words[i])
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Ensures strict one-to-one mapping
+    - Prevents duplicate word assignments
+    - Single-pass validation makes it efficient
+
+✅8. Single Number
+
+    Explanation: Given a non-empty array of integers, every element appears twice except for one. Find that single one.
+
+    Input: nums = [2,2,1]
+
+    Output: 1
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Will there always be exactly one unique element?
+    3. Can numbers appear more than twice or only twice except one?
+    4. Can we modify the array?
+    5. What is the expected time and space constraint?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Count frequency of each element using a dictionary and return the element with frequency 1.
+
+    Steps:
+    1. Traverse array and count frequency
+    2. Find element with frequency 1
+    3. Return that element
+
+    Python Code:
+
+    class Solution:
+        def singleNumber(self, nums):
+
+            freq = {}
+
+            for num in nums:
+                freq[num] = freq.get(num, 0) + 1
+
+            for num in nums:
+                if freq[num] == 1:
+                    return num
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra hashmap space
+    - Requires two passes over data
+    - Not optimal for memory constraints
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use XOR property: a ^ a = 0 and a ^ 0 = a. XOR all numbers to get the unique one.
+
+    Steps:
+    1. Initialize result as 0
+    2. XOR all elements in array
+    3. Final result is the single number
+
+    Python Code:
+
+    class Solution:
+        def singleNumber(self, nums):
+
+            result = 0
+
+            for num in nums:
+                result ^= num
+
+            return result
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Duplicate numbers cancel each other using XOR
+    - Only unique number remains
+    - No extra space required
+
+✅9. Missing Number
+
+    Explanation: Given an array containing n distinct numbers taken from 0 to n, find the one number that is missing from the array.
+
+    Input: nums = [3,0,1]
+
+    Output: 2
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain duplicates?
+    2. Is the range always from 0 to n with exactly one missing number?
+    3. Can numbers be negative?
+    4. Can the array be unsorted?
+    5. What should be returned if array is empty?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Check each number from 0 to n and see which one is missing in the array.
+
+    Steps:
+    1. Loop from 0 to n
+    2. Check if each number exists in array
+    3. Return the number that is not found
+
+    Python Code:
+
+    class Solution:
+        def missingNumber(self, nums):
+
+            n = len(nums)
+
+            for i in range(n + 1):
+
+                if i not in nums:
+                    return i
+
+    Time Complexity: O(n^2)
+
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - "in" operation on list is O(n)
+    - Nested searching makes it slow
+    - Not suitable for large input sizes
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use mathematical sum formula or XOR to find missing number efficiently.
+
+    Steps:
+    1. Compute expected sum from 0 to n
+    2. Compute actual sum of array
+    3. Subtract to get missing number
+
+    Python Code:
+
+    class Solution:
+        def missingNumber(self, nums):
+
+            n = len(nums)
+
+            expected_sum = n * (n + 1) // 2
+            actual_sum = sum(nums)
+
+            return expected_sum - actual_sum
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Sum formula gives exact expected total
+    - Difference directly gives missing number
+    - No extra data structures needed
+
+✅10. Ransom Note
+
+    Explanation: Given two strings ransomNote and magazine, determine if ransomNote can be constructed using letters from magazine. Each letter in magazine can be used only once.
+
+    Input: ransomNote = "aa", magazine = "aab"
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Are the strings case-sensitive?
+    2. Can we assume only lowercase English letters?
+    3. Can magazine be empty?
+    4. Should each character be used only once?
+    5. What should we return if ransomNote is empty?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: For each character in ransomNote, try to find and remove it from magazine.
+
+    Steps:
+    1. Convert magazine into a list
+    2. For each character in ransomNote
+    3. Check if it exists in magazine list
+    4. If yes, remove it; otherwise return False
+
+    Python Code:
+
+    class Solution:
+        def canConstruct(self, ransomNote, magazine):
+
+            magazine = list(magazine)
+
+            for ch in ransomNote:
+
+                if ch in magazine:
+                    magazine.remove(ch)
+                else:
+                    return False
+
+            return True
+
+    Time Complexity: O(n^2)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - "in" and remove operations on list are O(n)
+    - Repeated scanning makes it slow
+    - Not scalable for large inputs
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a frequency count (hashmap) for magazine and reduce counts while checking ransomNote.
+
+    Steps:
+    1. Count frequency of characters in magazine
+    2. Traverse ransomNote
+    3. Decrease frequency for each character
+    4. If any count goes negative or missing → return False
+
+    Python Code:
+
+    class Solution:
+        def canConstruct(self, ransomNote, magazine):
+
+            freq = {}
+
+            for ch in magazine:
+                freq[ch] = freq.get(ch, 0) + 1
+
+            for ch in ransomNote:
+
+                if ch not in freq or freq[ch] == 0:
+                    return False
+
+                freq[ch] -= 1
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Each character is counted once
+    - Efficient frequency tracking
+    - Ensures each letter is used only once
+
