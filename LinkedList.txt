@@ -1,0 +1,69 @@
+1. Reverse Linked List
+
+    Explanation: Given the head of a singly linked list, reverse the list and return the new head. All node connections must be reversed so that the last node becomes the first.
+
+    Input: head = [1,2,3,4,5]
+
+    Output: [5,4,3,2,1]
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store all node values in an array, then rebuild the linked list in reverse order.
+
+    Steps:
+    1. Traverse the linked list and store values in a list
+    2. Reverse the list of values
+    3. Create a new linked list using reversed values
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra space for storing values
+    - Creates a new linked list instead of modifying in-place
+    - Not optimal for interview expectations
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use three pointers to reverse links in-place while traversing the linked list.
+
+    Steps:
+    1. Initialize prev as None
+    2. Traverse the list using current pointer
+    3. Store next node before changing links
+    4. Reverse current node’s pointer to prev
+    5. Move prev and current forward
+
+    Python Code:
+
+    class Solution:
+        def reverseList(self, head):
+
+            prev = None
+            curr = head
+
+            while curr:
+
+                nxt = curr.next
+                curr.next = prev
+                prev = curr
+                curr = nxt
+
+            return prev
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Each node is visited only once
+    - Pointers are reversed in-place
+    - No extra memory is used

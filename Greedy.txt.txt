@@ -1,0 +1,73 @@
+1. Jump Game
+
+    Explanation: Given an array of non-negative integers, each element represents the maximum jump length at that position. Determine if you can reach the last index starting from the first index.
+
+    Input: nums = [2,3,1,1,4]
+
+    Output: True
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Try all possible jump paths from index 0 to see if we can reach the last index.
+
+    Steps:
+    1. Start from index 0
+    2. Try all possible jumps from current position
+    3. Recursively check if last index is reachable
+    4. Return True if any path reaches end
+
+    Time Complexity: O(2^n)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Explores all possible paths
+    - Repeated calculations for same positions
+    - Exponential time complexity
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Track the farthest index that can be reached while iterating. If at any point the current index is beyond the reachable range, return False.
+
+    Steps:
+    1. Initialize maxReach = 0
+    2. Iterate through each index
+    3. If index is greater than maxReach, return False
+    4. Update maxReach = max(maxReach, i + nums[i])
+    5. If maxReach reaches last index, return True
+
+    Python Code:
+
+    class Solution:
+        def canJump(self, nums):
+
+            max_reach = 0
+            n = len(nums)
+
+            for i in range(n):
+
+                if i > max_reach:
+                    return False
+
+                max_reach = max(max_reach, i + nums[i])
+
+                if max_reach >= n - 1:
+                    return True
+
+            return True
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Always tracks the farthest reachable position
+    - Greedy approach avoids path exploration
+    - Single pass solution

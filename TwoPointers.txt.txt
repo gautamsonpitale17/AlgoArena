@@ -1,0 +1,71 @@
+1. Two Sum II (Input Array Is Sorted)
+
+    Explanation: Given a sorted array of integers and a target value, return the indices of the two numbers such that they add up to the target. The array is already sorted in increasing order, and exactly one solution exists.
+
+    Input: numbers = [2,7,11,15], target = 9
+
+    Output: [1,2]
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Check every possible pair of numbers and see if their sum equals the target.
+
+    Steps:
+    1. Start from the first element
+    2. Compare it with every next element
+    3. Return the indices when the sum equals the target
+
+    Time Complexity: O(n²)
+
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - It checks many unnecessary pairs
+    - Nested loops increase execution time
+    - Slow for large input arrays
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Since the array is already sorted, use two pointers. One pointer starts from the beginning and another from the end. Move pointers based on the current sum.
+
+    Steps:
+    1. Place one pointer at the start and one at the end
+    2. Calculate the sum of both numbers
+    3. Move pointers until the target sum is found
+
+    Python Code:
+
+    class Solution:
+        def twoSum(self, numbers, target):
+
+            left = 0
+            right = len(numbers) - 1
+
+            while left < right:
+
+                current_sum = numbers[left] + numbers[right]
+
+                if current_sum == target:
+                    return [left + 1, right + 1]
+
+                elif current_sum < target:
+                    left += 1
+
+                else:
+                    right -= 1
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - The array is sorted
+    - Two pointers reduce unnecessary checks
+    - Each element is processed only once

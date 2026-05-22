@@ -1,0 +1,71 @@
+1. Longest Substring Without Repeating Characters
+
+    Explanation: Given a string, find the length of the longest substring without repeating characters. A substring must contain continuous characters and no character should repeat inside it.
+
+    Input: s = "abcabcbb"
+
+    Output: 3
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Generate all possible substrings and check each one for repeating characters.
+
+    Steps:
+    1. Generate all substrings of the string
+    2. For each substring, check if all characters are unique
+    3. Track the maximum length of valid substring
+
+    Time Complexity: O(n³)
+
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Too many substrings are generated
+    - Each substring is checked again for duplicates
+    - Highly inefficient for large strings
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a sliding window with a set to maintain unique characters. Expand the window, and shrink it when a duplicate is found.
+
+    Steps:
+    1. Use two pointers to define a window
+    2. Expand right pointer and add characters to set
+    3. If duplicate found, move left pointer and remove characters
+    4. Track maximum window size
+
+    Python Code:
+
+    class Solution:
+        def lengthOfLongestSubstring(self, s):
+
+            char_set = set()
+            left = 0
+            max_len = 0
+
+            for right in range(len(s)):
+
+                while s[right] in char_set:
+                    char_set.remove(s[left])
+                    left += 1
+
+                char_set.add(s[right])
+                max_len = max(max_len, right - left + 1)
+
+            return max_len
+
+    Time Complexity: O(n)
+
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Sliding window avoids recomputation
+    - Each character is processed at most twice
+    - Set ensures constant-time duplicate checking
