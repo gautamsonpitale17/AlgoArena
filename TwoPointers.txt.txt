@@ -1,64 +1,88 @@
-1. Two Sum II (Input Array Is Sorted)
+✅1. Valid Palindrome
 
-    Explanation: Given a sorted array of integers and a target value, return the indices of the two numbers such that they add up to the target. The array is already sorted in increasing order, and exactly one solution exists.
+    Explanation: Given a string, determine if it reads the same forward and backward after converting to lowercase and removing non-alphanumeric characters.
 
-    Input: numbers = [2,7,11,15], target = 9
+    Input: s = "A man, a plan, a canal: Panama"
 
-    Output: [1,2]
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Should we ignore spaces and special characters?
+    2. Should uppercase and lowercase be treated the same?
+    3. Can the string be empty?
+    4. Do we consider only English letters and digits?
+    5. Should we modify the input string or not?
 
     ==================================================
 
     BRUTE-FORCE
 
-    Idea: Check every possible pair of numbers and see if their sum equals the target.
+    Idea: Clean the string first (remove non-alphanumeric characters and convert to lowercase), then check if it equals its reverse.
 
     Steps:
-    1. Start from the first element
-    2. Compare it with every next element
-    3. Return the indices when the sum equals the target
+    1. Create a cleaned version of string
+    2. Keep only alphanumeric characters
+    3. Convert to lowercase
+    4. Compare with reversed string
 
-    Time Complexity: O(n²)
+    Python Code:
 
-    Space Complexity: O(1)
+    class Solution:
+        def isPalindrome(self, s):
+
+            cleaned = ""
+
+            for ch in s:
+                if ch.isalnum():
+                    cleaned += ch.lower()
+
+            return cleaned == cleaned[::-1]
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
 
     Why It Won't Work Efficiently?
     Because:
-    - It checks many unnecessary pairs
-    - Nested loops increase execution time
-    - Slow for large input arrays
+    - Creates extra string copies
+    - String concatenation is costly in loops
+    - Uses extra space for cleaned string
 
     ==================================================
 
     OPTIMAL
 
     Idea:
-    Since the array is already sorted, use two pointers. One pointer starts from the beginning and another from the end. Move pointers based on the current sum.
+    Use two pointers from both ends and skip invalid characters while comparing.
 
     Steps:
-    1. Place one pointer at the start and one at the end
-    2. Calculate the sum of both numbers
-    3. Move pointers until the target sum is found
+    1. Use left and right pointers
+    2. Skip non-alphanumeric characters
+    3. Compare characters in lowercase
+    4. Move pointers inward
 
     Python Code:
 
     class Solution:
-        def twoSum(self, numbers, target):
+        def isPalindrome(self, s):
 
             left = 0
-            right = len(numbers) - 1
+            right = len(s) - 1
 
             while left < right:
 
-                current_sum = numbers[left] + numbers[right]
-
-                if current_sum == target:
-                    return [left + 1, right + 1]
-
-                elif current_sum < target:
+                while left < right and not s[left].isalnum():
                     left += 1
 
-                else:
+                while left < right and not s[right].isalnum():
                     right -= 1
+
+                if s[left].lower() != s[right].lower():
+                    return False
+
+                left += 1
+                right -= 1
+
+            return True
 
     Time Complexity: O(n)
 
@@ -66,6 +90,918 @@
 
     Why It Works?
     Because:
-    - The array is sorted
-    - Two pointers reduce unnecessary checks
-    - Each element is processed only once
+    - No extra string is created
+    - Two pointers scan once from both ends
+    - Efficient in-place comparison
+
+✅2. Reverse String
+
+    Explanation: Given an array of characters, reverse it in-place.
+
+    Input: s = ["h","e","l","l","o"]
+
+    Output: ["o","l","l","e","h"]
+
+    Clarifying Questions For Interviewer:
+    1. Should we modify the array in-place?
+    2. Can the array be empty?
+    3. Are we only dealing with ASCII characters?
+    4. Is extra space allowed or should it be O(1)?
+    5. Is recursion allowed or only iterative solution?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Create a new array and fill it from the end of the original array.
+
+    Steps:
+    1. Create a new empty array
+    2. Traverse original array from end to start
+    3. Append elements into new array
+    4. Copy back if needed
+
+    Python Code:
+
+    class Solution:
+        def reverseString(self, s):
+
+            result = []
+
+            for i in range(len(s) - 1, -1, -1):
+                result.append(s[i])
+
+            for i in range(len(s)):
+                s[i] = result[i]
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra array for storage
+    - Not in-place solution
+    - Additional memory overhead
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers (left and right) and swap characters in-place.
+
+    Steps:
+    1. Initialize left at start and right at end
+    2. Swap characters
+    3. Move both pointers towards center
+    4. Stop when they meet
+
+    Python Code:
+
+    class Solution:
+        def reverseString(self, s):
+
+            left = 0
+            right = len(s) - 1
+
+            while left < right:
+
+                s[left], s[right] = s[right], s[left]
+
+                left += 1
+                right -= 1
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Swapping is done in-place
+    - Each element is visited only once
+    - No extra memory is used
+
+✅3. Move Zeroes
+
+    Explanation: Given an integer array, move all 0's to the end while maintaining the relative order of non-zero elements.
+
+    Input: nums = [0,1,0,3,12]
+
+    Output: [1,3,12,0,0]
+
+    Clarifying Questions For Interviewer:
+    1. Should the operation be done in-place?
+    2. Should relative order of non-zero elements be preserved?
+    3. Can the array contain negative numbers?
+    4. What should we do if there are no zeroes?
+    5. Can we use extra space?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Create a new array, first store all non-zero elements, then append zeros.
+
+    Steps:
+    1. Traverse array and collect non-zero elements
+    2. Count number of zeros
+    3. Append zeros at the end
+    4. Copy back to original array
+
+    Python Code:
+
+    class Solution:
+        def moveZeroes(self, nums):
+
+            result = []
+
+            zero_count = 0
+
+            for num in nums:
+                if num != 0:
+                    result.append(num)
+                else:
+                    zero_count += 1
+
+            for _ in range(zero_count):
+                result.append(0)
+
+            for i in range(len(nums)):
+                nums[i] = result[i]
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra array
+    - Not in-place solution
+    - Extra memory overhead
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers to place non-zero elements at the front and fill remaining positions with zero.
+
+    Steps:
+    1. Maintain a position pointer for next non-zero element
+    2. Traverse array and move non-zero elements forward
+    3. Fill remaining positions with zero
+
+    Python Code:
+
+    class Solution:
+        def moveZeroes(self, nums):
+
+            pos = 0
+
+            for i in range(len(nums)):
+                if nums[i] != 0:
+                    nums[pos] = nums[i]
+                    pos += 1
+
+            for i in range(pos, len(nums)):
+                nums[i] = 0
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Non-zero elements are shifted in one pass
+    - Order is preserved
+    - Remaining positions are filled with zeros efficiently
+
+✅4. Remove Duplicates from Sorted Array
+
+    Explanation: Given a sorted array, remove duplicates in-place such that each element appears only once and return the new length of the array.
+
+    Input: nums = [1,1,2,2,3]
+
+    Output: 3 (modified array: [1,2,3,_ ,_])
+
+    Clarifying Questions For Interviewer:
+    1. Is the array always sorted?
+    2. Should we modify the array in-place?
+    3. Can we use extra space?
+    4. What should be returned: length or array?
+    5. Can the array be empty?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Use a set to store unique elements and then overwrite the array.
+
+    Steps:
+    1. Traverse array and store unique elements in a set
+    2. Convert set to list
+    3. Copy back to original array
+    4. Return length
+
+    Python Code:
+
+    class Solution:
+        def removeDuplicates(self, nums):
+
+            unique = set()
+
+            for num in nums:
+                unique.add(num)
+
+            unique_list = list(unique)
+
+            for i in range(len(unique_list)):
+                nums[i] = unique_list[i]
+
+            return len(unique_list)
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra space (set + list)
+    - Does not take advantage of sorted array
+    - Order may not be strictly guaranteed in some cases
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers since the array is sorted. One pointer tracks unique position, another scans the array.
+
+    Steps:
+    1. Use slow pointer for position of unique elements
+    2. Traverse array with fast pointer
+    3. If new element found, move slow pointer and update value
+    4. Return count of unique elements
+
+    Python Code:
+
+    class Solution:
+        def removeDuplicates(self, nums):
+
+            if not nums:
+                return 0
+
+            slow = 0
+
+            for fast in range(1, len(nums)):
+
+                if nums[fast] != nums[slow]:
+                    slow += 1
+                    nums[slow] = nums[fast]
+
+            return slow + 1
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Sorted array ensures duplicates are adjacent
+    - Two pointers efficiently overwrite duplicates
+    - In-place solution without extra memory
+
+✅5. Remove Element
+
+    Explanation: Given an integer array and a value val, remove all occurrences of val in-place and return the new length of the array.
+
+    Input: nums = [3,2,2,3], val = 3
+
+    Output: 2 (modified array: [2,2,_,_])
+
+    Clarifying Questions For Interviewer:
+    1. Should the removal be done in-place?
+    2. Should we maintain order of remaining elements?
+    3. Can we use extra space?
+    4. What should be returned: new length or modified array?
+    5. Can the array be empty?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Create a new list with all elements except the target value.
+
+    Steps:
+    1. Traverse the array
+    2. Add only elements not equal to val into a new list
+    3. Copy back to original array
+    4. Return new length
+
+    Python Code:
+
+    class Solution:
+        def removeElement(self, nums, val):
+
+            result = []
+
+            for num in nums:
+                if num != val:
+                    result.append(num)
+
+            for i in range(len(result)):
+                nums[i] = result[i]
+
+            return len(result)
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra array
+    - Not in-place solution
+    - Extra memory overhead
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers to overwrite elements equal to val.
+
+    Steps:
+    1. Use a write pointer starting at 0
+    2. Traverse array using read pointer
+    3. Copy only valid elements (not equal to val)
+    4. Return write pointer as new length
+
+    Python Code:
+
+    class Solution:
+        def removeElement(self, nums, val):
+
+            write = 0
+
+            for read in range(len(nums)):
+
+                if nums[read] != val:
+                    nums[write] = nums[read]
+                    write += 1
+
+            return write
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Only valid elements are overwritten
+    - Single pass solution
+    - No extra memory used
+
+✅6. Merge Sorted Array
+
+    Explanation: Given two sorted arrays nums1 and nums2, merge nums2 into nums1 as one sorted array. nums1 has enough space at the end to hold nums2.
+
+    Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+
+    Output: [1,2,2,3,5,6]
+
+    Clarifying Questions For Interviewer:
+    1. Should the merge be done in-place in nums1?
+    2. Are both arrays always sorted in non-decreasing order?
+    3. Can nums2 be empty?
+    4. Can nums1 have extra trailing zeros only as placeholders?
+    5. Should we return nums1 or just modify it?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Copy all elements into a new array and sort it.
+
+    Steps:
+    1. Copy valid elements of nums1 into a new array
+    2. Add all elements of nums2
+    3. Sort the combined array
+    4. Copy back into nums1
+
+    Python Code:
+
+    class Solution:
+        def merge(self, nums1, m, nums2, n):
+
+            merged = []
+
+            for i in range(m):
+                merged.append(nums1[i])
+
+            for i in range(n):
+                merged.append(nums2[i])
+
+            merged.sort()
+
+            for i in range(len(merged)):
+                nums1[i] = merged[i]
+
+    Time Complexity: O((m+n) log(m+n))
+    Space Complexity: O(m+n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra space
+    - Sorting unnecessary since arrays are already sorted
+    - Not in-place optimized solution
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers from the end of both arrays and fill nums1 from the back.
+
+    Steps:
+    1. Start pointer1 at m-1, pointer2 at n-1
+    2. Start merge position at end of nums1
+    3. Compare elements from back and place larger one at end
+    4. Move pointers accordingly
+
+    Python Code:
+
+    class Solution:
+        def merge(self, nums1, m, nums2, n):
+
+            i = m - 1
+            j = n - 1
+            k = m + n - 1
+
+            while i >= 0 and j >= 0:
+
+                if nums1[i] > nums2[j]:
+                    nums1[k] = nums1[i]
+                    i -= 1
+                else:
+                    nums1[k] = nums2[j]
+                    j -= 1
+
+                k -= 1
+
+            while j >= 0:
+                nums1[k] = nums2[j]
+                j -= 1
+                k -= 1
+
+    Time Complexity: O(m + n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Works from the end to avoid overwriting values
+    - Uses already available space in nums1
+    - Efficient linear merge like merge-sort step
+
+✅7. Squares of a Sorted Array
+
+    Explanation: Given a sorted integer array, return an array of the squares of each number sorted in non-decreasing order.
+
+    Input: nums = [-4,-1,0,3,10]
+
+    Output: [0,1,9,16,100]
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Is the input array always sorted?
+    3. Should the output also be sorted?
+    4. Can we modify the input array?
+    5. What are the expected time and space constraints?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Square every number first, then sort the resulting array.
+
+    Steps:
+    1. Traverse array and square each element
+    2. Store squared values in a new array
+    3. Sort the new array
+    4. Return sorted squared array
+
+    Python Code:
+
+    class Solution:
+        def sortedSquares(self, nums):
+
+            result = []
+
+            for num in nums:
+                result.append(num * num)
+
+            result.sort()
+
+            return result
+
+    Time Complexity: O(n log n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Sorting adds extra time complexity
+    - Ignores the sorted nature of input
+    - Unnecessary sorting operation
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers from both ends since largest square can come from either most negative or most positive number.
+
+    Steps:
+    1. Initialize left and right pointers
+    2. Compare squares of both ends
+    3. Place larger square at end of result array
+    4. Move corresponding pointer inward
+
+    Python Code:
+
+    class Solution:
+        def sortedSquares(self, nums):
+
+            n = len(nums)
+
+            result = [0] * n
+
+            left = 0
+            right = n - 1
+
+            index = n - 1
+
+            while left <= right:
+
+                left_square = nums[left] * nums[left]
+                right_square = nums[right] * nums[right]
+
+                if left_square > right_square:
+                    result[index] = left_square
+                    left += 1
+                else:
+                    result[index] = right_square
+                    right -= 1
+
+                index -= 1
+
+            return result
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Largest square always comes from either end
+    - Two pointers process array in single pass
+    - Avoids unnecessary sorting
+
+❌8. Linked List Cycle
+
+    Explanation: Given the head of a linked list, determine if the linked list has a cycle in it.
+
+    Input: head = [3,2,0,-4], pos = 1
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Can the linked list be empty?
+    2. Is there at most one cycle in the list?
+    3. Should we only detect cycle or also return starting node?
+    4. Can we modify the linked list?
+    5. Is extra space allowed?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store visited nodes in a set. If a node is visited again, cycle exists.
+
+    Steps:
+    1. Create an empty set
+    2. Traverse linked list node by node
+    3. If node already exists in set, return True
+    4. Otherwise add node to set
+
+    Python Code:
+
+    class Solution:
+        def hasCycle(self, head):
+
+            visited = set()
+
+            current = head
+
+            while current:
+
+                if current in visited:
+                    return True
+
+                visited.add(current)
+
+                current = current.next
+
+            return False
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra memory to store visited nodes
+    - Space increases with linked list size
+    - Not optimal for memory constraints
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use Floyd’s Cycle Detection Algorithm (slow and fast pointers).
+
+    Steps:
+    1. Initialize slow and fast pointers
+    2. Move slow by one step
+    3. Move fast by two steps
+    4. If they meet, cycle exists
+    5. If fast reaches null, no cycle exists
+
+    Python Code:
+
+    class Solution:
+        def hasCycle(self, head):
+
+            slow = head
+            fast = head
+
+            while fast and fast.next:
+
+                slow = slow.next
+                fast = fast.next.next
+
+                if slow == fast:
+                    return True
+
+            return False
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Fast pointer eventually catches slow pointer in cycle
+    - No extra memory is used
+    - Efficient single traversal approach
+
+❌9. Backspace String Compare
+
+    Explanation: Given two strings s and t containing '#' characters representing backspaces, return True if both strings are equal after processing backspaces.
+
+    Input: s = "ab#c", t = "ad#c"
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Does '#' always represent one backspace?
+    2. Can strings contain multiple consecutive '#' characters?
+    3. What happens if backspace appears at beginning of string?
+    4. Are strings case-sensitive?
+    5. Can strings be empty?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Simulate typing using stacks for both strings and compare final results.
+
+    Steps:
+    1. Traverse each string
+    2. Push normal characters into stack
+    3. Pop character when '#' appears
+    4. Compare processed strings
+
+    Python Code:
+
+    class Solution:
+        def backspaceCompare(self, s, t):
+
+            def build(string):
+
+                stack = []
+
+                for ch in string:
+
+                    if ch == "#":
+
+                        if stack:
+                            stack.pop()
+
+                    else:
+                        stack.append(ch)
+
+                return "".join(stack)
+
+            return build(s) == build(t)
+
+    Time Complexity: O(n + m)
+    Space Complexity: O(n + m)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra stacks for both strings
+    - Extra memory grows with input size
+    - Final processed strings also require space
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Traverse both strings from the end while counting backspaces.
+
+    Steps:
+    1. Start pointers from end of both strings
+    2. Skip characters affected by backspaces
+    3. Compare valid characters
+    4. Continue until both strings are processed
+
+    Python Code:
+
+    class Solution:
+        def backspaceCompare(self, s, t):
+
+            i = len(s) - 1
+            j = len(t) - 1
+
+            while i >= 0 or j >= 0:
+
+                skip_s = 0
+
+                while i >= 0:
+
+                    if s[i] == "#":
+                        skip_s += 1
+                        i -= 1
+
+                    elif skip_s > 0:
+                        skip_s -= 1
+                        i -= 1
+
+                    else:
+                        break
+
+                skip_t = 0
+
+                while j >= 0:
+
+                    if t[j] == "#":
+                        skip_t += 1
+                        j -= 1
+
+                    elif skip_t > 0:
+                        skip_t -= 1
+                        j -= 1
+
+                    else:
+                        break
+
+                if i >= 0 and j >= 0:
+
+                    if s[i] != t[j]:
+                        return False
+
+                elif i >= 0 or j >= 0:
+                    return False
+
+                i -= 1
+                j -= 1
+
+            return True
+
+    Time Complexity: O(n + m)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Processes strings from back efficiently
+    - Avoids building new strings
+    - Uses constant extra space
+
+❌10. Palindrome Linked List
+
+    Explanation: Given the head of a linked list, determine whether the linked list is a palindrome.
+
+    Input: head = [1,2,2,1]
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Can the linked list be empty?
+    2. Should the solution be in-place?
+    3. Can we use extra space?
+    4. Should the original linked list remain unchanged?
+    5. Is recursion allowed?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store all linked list values in an array and check if the array is a palindrome.
+
+    Steps:
+    1. Traverse linked list and store values in array
+    2. Use two pointers to compare array values
+    3. Return False if mismatch found
+
+    Python Code:
+
+    class Solution:
+        def isPalindrome(self, head):
+
+            values = []
+
+            current = head
+
+            while current:
+                values.append(current.val)
+                current = current.next
+
+            left = 0
+            right = len(values) - 1
+
+            while left < right:
+
+                if values[left] != values[right]:
+                    return False
+
+                left += 1
+                right -= 1
+
+            return True
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra array space
+    - Copies all node values
+    - Not memory optimized
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Find middle of linked list, reverse second half, then compare both halves.
+
+    Steps:
+    1. Find middle using slow and fast pointers
+    2. Reverse second half of linked list
+    3. Compare first half and reversed second half
+    4. Return False if mismatch found
+
+    Python Code:
+
+    class Solution:
+        def isPalindrome(self, head):
+
+            slow = head
+            fast = head
+
+            while fast and fast.next:
+                slow = slow.next
+                fast = fast.next.next
+
+            prev = None
+
+            while slow:
+
+                next_node = slow.next
+                slow.next = prev
+                prev = slow
+                slow = next_node
+
+            left = head
+            right = prev
+
+            while right:
+
+                if left.val != right.val:
+                    return False
+
+                left = left.next
+                right = right.next
+
+            return True
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Finds middle efficiently using two pointers
+    - Reverses linked list in-place
+    - Compares both halves without extra memory
