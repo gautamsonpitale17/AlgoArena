@@ -852,7 +852,7 @@
     - Difference directly gives missing number
     - No extra data structures needed
 
-✅10. Ransom Note
+✅10. RansomNote
 
     Explanation: Given two strings ransomNote and magazine, determine if ransomNote can be constructed using letters from magazine. Each letter in magazine can be used only once.
 
@@ -879,7 +879,7 @@
     3. Check if it exists in magazine list
     4. If yes, remove it; otherwise return False
 
-    Python Code:
+    Python Code
 
     class Solution:
         def canConstruct(self, ransomNote, magazine):

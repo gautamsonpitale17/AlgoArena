@@ -1,32 +1,375 @@
 HASHING
+
+   1  Two Sum
+   2  Valid Anagram
+   3  Contains Duplicate
+   4  First Unique Character in a String
+   5  Happy Number
+   6  Isomorphic Strings
+   7  Word Pattern
+   8  Single Number
+   9  Missing Number
+   10 Ransom Note
+
+   1  Group Anagrams
+   2  Top K Frequent Elements
+   3  Subarray Sum Equals K
+   4  Longest Consecutive Sequence
+   5  Contiguous Array
+   6  Majority Element II
+   7  4Sum II
+   8  LRU Cache
+   9  Sort Characters By Frequency
+   10 Continuous Subarray Sum
+
    ↓
+
 TWO POINTERS
+
+   1  Valid Palindrome
+   2  Reverse String
+   3  Move Zeroes
+   4  Remove Duplicates from Sorted Array
+   5  Remove Element
+   6  Merge Sorted Array
+   7  Squares of a Sorted Array
+   8  Linked List Cycle
+   9  Backspace String Compare
+   10 Palindrome Linked List
+
+   1  3Sum
+   2  Container With Most Water
+   3  Two Sum II - Input Array Is Sorted
+   4  3Sum Closest
+   5  Remove Nth Node From End of List
+   6  Sort Colors
+   7  Find the Duplicate Number
+   8  Next Permutation
+   9  Boats to Save People
+   10 4Sum
+
    ↓
 SLIDING WINDOW
+
+   1  Maximum Average Subarray I
+   2  Contains Duplicate II
+   3  Longest Continuous Increasing Subsequence
+   4  Minimum Difference Between Highest and Lowest of K Scores
+   5  Substrings of Size Three with Distinct Characters
+   6  Find the K-Beauty of a Number
+   7  Defuse the Bomb
+   8  Minimum Recolors to Get K Consecutive Black Blocks
+   9  Diet Plan Performance
+   10 Moving Average from Data Stream
+
+   1  Longest Substring Without Repeating Characters
+   2  Permutation in String
+   3  Find All Anagrams in a String
+   4  Minimum Size Subarray Sum
+   5  Longest Repeating Character Replacement
+   6  Fruit Into Baskets
+   7  Max Consecutive Ones III
+   8  Subarray Product Less Than K
+   9  Longest Subarray of 1's After Deleting One Element
+   10 Maximum Number of Vowels in a Substring of Given Length
+
    ↓
 PREFIX SUM
+
+   1  Running Sum of 1d Array
+   2  Find Pivot Index
+   3  Range Sum Query - Immutable
+   4  Find the Highest Altitude
+   5  Left and Right Sum Differences
+   6  Sum of All Odd Length Subarrays
+   7  Minimum Value to Get Positive Step by Step Sum
+   8  Defuse the Bomb
+   9  Maximum Average Subarray I
+   10 Decode XORed Array
+
+   1  Subarray Sum Equals K
+   2  Product of Array Except Self
+   3  Contiguous Array
+   4  Subarray Sums Divisible by K
+   5  Continuous Subarray Sum
+   6  Range Sum Query 2D - Immutable
+   7  Number of Ways to Split Array
+   8  Sum of Absolute Differences in a Sorted Array
+   9  Maximum Points You Can Obtain from Cards
+   10 Minimum Operations to Reduce X to Zero
+
    ↓
 BINARY SEARCH
+
+   1  Binary Search
+   2  Search Insert Position
+   3  First Bad Version
+   4  Sqrt(x)
+   5  Guess Number Higher or Lower
+   6  Valid Perfect Square
+   7  Find Smallest Letter Greater Than Target
+   8  Count Negative Numbers in a Sorted Matrix
+   9  Arranging Coins
+   10 Check if N and Its Double Exist
+
+   1  Find First and Last Position of Element in Sorted Array
+   2  Search in Rotated Sorted Array
+   3  Find Minimum in Rotated Sorted Array
+   4  Search a 2D Matrix
+   5  Find Peak Element
+   6  Koko Eating Bananas
+   7  Capacity To Ship Packages Within D Days
+   8  Single Element in a Sorted Array
+   9  Time Based Key-Value Store
+   10 Search in Rotated Sorted Array II
+
    ↓
 LINKED LIST
+
+   1  Reverse Linked List
+   2  Linked List Cycle
+   3  Merge Two Sorted Lists
+   4  Middle of the Linked List
+   5  Palindrome Linked List
+   6  Remove Duplicates from Sorted List
+   7  Remove Linked List Elements
+   8  Delete Node in a Linked List
+   9  Intersection of Two Linked Lists
+   10 Convert Binary Number in a Linked List to Integer
+
+   1  Add Two Numbers
+   2  Remove Nth Node From End of List
+   3  Linked List Cycle II
+   4  Reorder List
+   5  Copy List with Random Pointer
+   6  Sort List
+   7  Odd Even Linked List
+   8  Swap Nodes in Pairs
+   9  Partition List
+   10 LRU Cache
+
    ↓
 STACK
+
+   1  Valid Parentheses
+   2  Baseball Game
+   3  Backspace String Compare
+   4  Remove All Adjacent Duplicates In String
+   5  Next Greater Element I
+   6  Implement Stack using Queues
+   7  Make The String Great
+   8  Remove Outermost Parentheses
+   9  Crawler Log Folder
+   10 Maximum Nesting Depth of the Parentheses
+
+   1  Min Stack
+   2  Evaluate Reverse Polish Notation
+   3  Daily Temperatures
+   4  Decode String
+   5  Next Greater Element II
+   6  Asteroid Collision
+   7  Remove K Digits
+   8  Simplify Path
+   9  Car Fleet
+   10 Online Stock Span
+
    ↓
 RECURSION & BACKTRACKING
+
+   1  Fibonacci Number
+   2  Climbing Stairs
+   3  Reverse String
+   4  Power of Two
+   5  Power of Three
+   6  Pascal's Triangle
+   7  Merge Two Sorted Lists
+   8  Reverse Linked List
+   9  Maximum Depth of Binary Tree
+   10 Flood Fill
+
+   1  Permutations
+   2  Subsets
+   3  Combination Sum
+   4  Letter Combinations of a Phone Number
+   5  Generate Parentheses
+   6  Word Search
+   7  Permutations II
+   8  Subsets II
+   9  Combination Sum II
+   10 Palindrome Partitioning
+
    ↓
 TREES
+
+   1  Maximum Depth of Binary Tree
+   2  Invert Binary Tree
+   3  Symmetric Tree
+   4  Diameter of Binary Tree
+   5  Same Tree
+   6  Path Sum
+   7  Balanced Binary Tree
+   8  Merge Two Binary Trees
+   9  Subtree of Another Tree
+   10 Search in a Binary Search Tree
+
+   1  Binary Tree Level Order Traversal
+   2  Validate Binary Search Tree
+   3  Binary Tree Right Side View
+   4  Lowest Common Ancestor of a Binary Tree
+   5  Construct Binary Tree from Preorder and Inorder Traversal
+   6  Kth Smallest Element in a BST
+   7  Path Sum II
+   8  Binary Tree Zigzag Level Order Traversal
+   9  Count Good Nodes in Binary Tree
+   10 Flatten Binary Tree to Linked List
+
    ↓
 HEAP
+
+   1  Last Stone Weight
+   2  Kth Largest Element in a Stream
+   3  Relative Ranks
+   4  Maximum Product of Two Elements in an Array
+   5  The K Weakest Rows in a Matrix
+   6  Sort Array by Increasing Frequency
+   7  Take Gifts From the Richest Pile
+   8  Find Subsequence of Length K With the Largest Sum
+   9  Minimum Operations to Exceed Threshold Value I
+   10 Find Target Indices After Sorting Array
+
+   1  Kth Largest Element in an Array
+   2  Top K Frequent Elements
+   3  K Closest Points to Origin
+   4  Task Scheduler
+   5  Reorganize String
+   6  Find K Pairs with Smallest Sums
+   7  Kth Smallest Element in a Sorted Matrix
+   8  Smallest Number in Infinite Set
+   9  Design Twitter
+   10 Total Cost to Hire K Workers
+
    ↓
 TRIE
+
+   1  Longest Common Prefix
+   2  Longest Word in Dictionary
+   3  Count Words With a Given Prefix
+   4  String Matching in an Array
+   5  Check if a String Is a Prefix of Array
+   6  Find the Difference
+   7  Count Vowel Substrings of a String
+   8  Check if All Characters Have Equal Number of Occurrences
+   9  Length of Last Word
+   10 Find Words That Can Be Formed by Characters
+
+   1  Implement Trie (Prefix Tree)
+   2  Design Add and Search Words Data Structure
+   3  Replace Words
+   4  Search Suggestions System
+   5  Map Sum Pairs
+   6  Maximum XOR of Two Numbers in an Array
+   7  Implement Magic Dictionary
+   8  Extra Characters in a String
+   9  Sum of Prefix Scores of Strings
+   10 Find the Length of the Longest Common Prefix
+
    ↓
 GRAPHS
+
+   1  Find if Path Exists in Graph
+   2  Flood Fill
+   3  Find the Town Judge
+   4  Find Center of Star Graph
+   5  Island Perimeter
+   6  Destination City
+   7  Maximum Depth of Binary Tree
+   8  Minimum Depth of Binary Tree
+   9  Path Sum
+   10 Binary Tree Paths
+
+   1  Number of Islands
+   2  Clone Graph
+   3  Course Schedule
+   4  Course Schedule II
+   5  Pacific Atlantic Water Flow
+   6  Rotting Oranges
+   7  Max Area of Island
+   8  Number of Provinces
+   9  All Paths From Source to Target
+   10 Find Eventual Safe States
+
    ↓
 GREEDY
+
+   1  Assign Cookies
+   2  Lemonade Change
+   3  Majority Element
+   4  Is Subsequence
+   5  Can Place Flowers
+   6  Best Time to Buy and Sell Stock
+   7  Maximum Units on a Truck
+   8  Largest Perimeter Triangle
+   9  Minimum Number of Moves to Seat Everyone
+   10 Minimum Absolute Difference
+
+   1  Best Time to Buy and Sell Stock II
+   2  Jump Game
+   3  Jump Game II
+   4  Gas Station
+   5  Non-overlapping Intervals
+   6  Task Scheduler
+   7  Partition Labels
+   8  Queue Reconstruction by Height
+   9  Wiggle Subsequence
+   10 Boats to Save People
+
    ↓
 INTERVAL
+
+   1  Meeting Rooms
+   2  Summary Ranges
+   3  Missing Ranges
+   4  Determine if Two Events Have Conflict
+   5  Maximum Population Year
+   6  Teemo Attacking
+   7  Check if All 1's Are at Least Length K Places Away
+   8  Count Days Spent Together
+   9  Number of Days Between Two Dates
+   10 Find the Distance Value Between Two Arrays
+
+   1  Merge Intervals
+   2  Insert Interval
+   3  Meeting Rooms II
+   4  Non-overlapping Intervals
+   5  Minimum Number of Arrows to Burst Balloons
+   6  Interval List Intersections
+   7  Car Pooling
+   8  Partition Labels
+   9  Remove Covered Intervals
+   10 My Calendar I
+
    ↓
 DYNAMIC PROGRAMMING
 
+   1  Climbing Stairs
+   2  Min Cost Climbing Stairs
+   3  Fibonacci Number
+   4  N-th Tribonacci Number
+   5  Best Time to Buy and Sell Stock
+   6  Pascal's Triangle
+   7  Pascal's Triangle II
+   8  Is Subsequence
+   9  Divisor Game
+   10 Get Maximum in Generated Array
 
+   1  House Robber
+   2  Coin Change
+   3  Longest Increasing Subsequence
+   4  Unique Paths
+   5  Maximum Subarray
+   6  Longest Common Subsequence
+   7  Word Break
+   8  Jump Game
+   9  Partition Equal Subset Sum
+   10 Decode Ways
 
