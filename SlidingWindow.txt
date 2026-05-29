@@ -1,0 +1,481 @@
+✅1. Maximum Average Subarray I (Sliding Window)
+
+    Explanation: Find the contiguous subarray of size k that has the maximum average value and return that maximum average.
+
+    Input: nums = [1,12,-5,-6,50,3], k = 4
+
+    Output: 12.75
+
+    Clarifying Questions For Interviewer:
+    1. Can k be equal to the length of the array?
+    2. Can the array contain negative numbers?
+    3. Is k always valid (1 ≤ k ≤ n)?
+    4. Do we need to return the subarray or only the average?
+    5. Should the result be float or integer?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Calculate sum of every subarray of size k and track maximum average.
+
+    Steps:
+    1. Iterate from index 0 to n-k
+    2. For each index, compute sum of next k elements
+    3. Track maximum sum and convert to average
+
+    Python Code:
+
+    class Solution:
+        def findMaxAverage(self, nums, k):
+
+            n = len(nums)
+            max_sum = float('-inf')
+
+            for i in range(n - k + 1):
+                current_sum = 0
+
+                for j in range(i, i + k):
+                    current_sum += nums[j]
+
+                max_sum = max(max_sum, current_sum)
+
+            return max_sum / k
+
+    Time Complexity: O(n * k)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recomputes sum for overlapping windows
+    - Nested loops increase time complexity
+    - Inefficient for large arrays
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use sliding window to maintain sum of current window and update it in O(1) time.
+
+    Steps:
+    1. Compute sum of first k elements
+    2. Slide window by removing left element and adding right element
+    3. Track maximum sum during traversal
+
+    Python Code:
+
+    class Solution:
+        def findMaxAverage(self, nums, k):
+
+            window_sum = sum(nums[:k])
+            max_sum = window_sum
+
+            for i in range(k, len(nums)):
+                window_sum += nums[i] - nums[i - k]
+                max_sum = max(max_sum, window_sum)
+
+            return max_sum / k
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Reuses previous window sum
+    - Avoids recomputing full subarray sum
+    - Efficient sliding window technique
+
+✅2. Maximum Sum Subarray of Size K (Sliding Window)
+
+    Explanation: Find the maximum sum of any contiguous subarray of fixed size k.
+
+    Input: nums = [2, 1, 5, 1, 3, 2], k = 3
+
+    Output: 9
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Is k always valid (1 ≤ k ≤ n)?   
+    3. Should we return only the sum or also the subarray?
+    4. Can k be equal to the array length?
+    5. Should we handle empty input?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Try all subarrays of size k and compute their sum.
+
+    Steps:
+    1. Iterate from index 0 to n-k
+    2. For each index, calculate sum of next k elements
+    3. Track maximum sum
+
+    Python Code:
+
+    class Solution:
+        def maxSumSubarray(self, nums, k):
+
+            n = len(nums)
+            max_sum = float('-inf')
+
+            for i in range(n - k + 1):
+                current_sum = 0
+
+                for j in range(i, i + k):
+                    current_sum += nums[j]
+
+                max_sum = max(max_sum, current_sum)
+
+            return max_sum
+
+    Time Complexity: O(n * k)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recomputes sum for overlapping windows
+    - Nested loops increase time complexity
+    - Not scalable for large inputs
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use sliding window to maintain running sum efficiently.
+
+    Steps:
+    1. Compute sum of first k elements
+    2. Slide window by removing left element and adding right element
+    3. Update maximum sum
+
+    Python Code:
+
+    class Solution:
+        def maxSumSubarray(self, nums, k):
+
+            window_sum = sum(nums[:k])
+            max_sum = window_sum
+
+            for i in range(k, len(nums)):
+                window_sum += nums[i] - nums[i - k]
+                max_sum = max(max_sum, window_sum)
+
+            return max_sum
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Uses rolling sum technique
+    - Avoids recomputation
+    - Efficient sliding window approach
+
+✅3. Longest Substring Without Repeating Characters (Sliding Window / HashSet)
+
+    Explanation: Find the length of the longest substring in a string such that no character repeats.
+
+    Input: s = "abcabcbb"
+
+    Output: 3
+
+    Clarifying Questions For Interviewer:
+    1. Is the string case-sensitive?
+    2. Can the string contain spaces or special characters?
+    3. Should we return the substring or just the length?
+    4. Can the input string be empty?
+    5. What character set should we assume?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Check all substrings and verify if each has unique characters.
+
+    Steps:
+    1. Generate all substrings
+    2. Check if substring has repeating characters
+    3. Track maximum length of valid substring
+
+    Python Code:
+
+    class Solution:
+        def lengthOfLongestSubstring(self, s):
+
+            n = len(s)
+            max_len = 0
+
+            for i in range(n):
+                for j in range(i, n):
+
+                    seen = set()
+                    valid = True
+
+                    for k in range(i, j + 1):
+                        if s[k] in seen:
+                            valid = False
+                            break
+                        seen.add(s[k])
+
+                    if valid:
+                        max_len = max(max_len, j - i + 1)
+
+            return max_len
+
+    Time Complexity: O(n^3)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Triple nested loops
+    - Rechecking same characters repeatedly
+    - Very slow for large strings
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use sliding window with a set to maintain unique characters.
+
+    Steps:
+    1. Use two pointers (left and right)
+    2. Expand right pointer while characters are unique
+    3. Shrink left pointer when duplicate is found
+    4. Track maximum window size
+
+    Python Code:
+
+    class Solution:
+        def lengthOfLongestSubstring(self, s):
+
+            char_set = set()
+            left = 0
+            max_len = 0
+
+            for right in range(len(s)):
+
+                while s[right] in char_set:
+                    char_set.remove(s[left])
+                    left += 1
+
+                char_set.add(s[right])
+                max_len = max(max_len, right - left + 1)
+
+            return max_len
+
+    Time Complexity: O(n)
+    Space Complexity: O(min(n, charset))
+
+    Why It Works?
+    Because:
+    - Each character is processed at most twice
+    - Sliding window avoids recomputation
+    - Set ensures constant-time duplicate checking
+
+✅4. Minimum Size Subarray Sum (Sliding Window / Two Pointers)
+
+    Explanation: Find the minim um length of a contiguous subarray whose sum is greater than or equal to a target value.
+
+    Input: target = 7, nums = [2,3,1,2,4,3]
+
+    Output: 2
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Should we return 0 if no valid subarray exists?
+    3. Is the array always non-empty?
+    4. Can target be zero or negative?
+    5. Do we need to return the subarray or just length?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Check all subarrays and find the minimum length whose sum ≥ target.
+
+    Steps:
+    1. Try every starting index
+    2. Expand subarray and compute sum
+    3. Track minimum valid length
+
+    Python Code:
+
+    class Solution:
+        def minSubArrayLen(self, target, nums):
+
+            n = len(nums)
+            min_len = float('inf')
+
+            for i in range(n):
+                current_sum = 0
+
+                for j in range(i, n):
+                    current_sum += nums[j]
+
+                    if current_sum >= target:
+                        min_len = min(min_len, j - i + 1)
+                        break
+
+            return 0 if min_len == float('inf') else min_len
+
+    Time Complexity: O(n^2)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recomputes sums for overlapping subarrays
+    - Nested loops cause high complexity
+    - Inefficient for large arrays
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use sliding window to expand and shrink dynamically while maintaining sum.
+
+    Steps:
+    1. Expand right pointer and add to sum
+    2. When sum ≥ target, shrink from left
+    3. Track minimum window size
+
+    Python Code:
+
+    class Solution:
+        def minSubArrayLen(self, target, nums):
+
+            left = 0
+            current_sum = 0
+            min_len = float('inf')
+
+            for right in range(len(nums)):
+
+                current_sum += nums[right]
+
+                while current_sum >= target:
+                    min_len = min(min_len, right - left + 1)
+                    current_sum -= nums[left]
+                    left += 1
+
+            return 0 if min_len == float('inf') else min_len
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Each element is visited at most twice
+    - Efficient window shrinking reduces unnecessary computation
+    - Sliding window ensures optimal subarray tracking
+
+❌5. Find All Anagrams in a String (Sliding Window / Hash Map)
+
+    Explanation: Given a string s and a string p, find all starting indices of p's anagrams in s.
+
+    Input: s = "cbaebabacd", p = "abc"
+
+    Output: [0, 6]
+
+    Clarifying Questions For Interviewer:
+    1. Are both strings lowercase only or mixed characters?
+    2. Can p be longer than s?
+    3. Should we return indices in sorted order?
+    4. Can overlapping anagrams exist?
+    5. What should be returned if no matches exist?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Generate all substrings of length len(p) and check if they are anagrams of p.
+
+    Steps:
+    1. Compute frequency of string p
+    2. For every substring of size len(p), compute its frequency
+    3. Compare both frequency maps
+
+    Python Code:
+
+    class Solution:
+        def findAnagrams(self, s, p):
+
+            from collections import Counter
+
+            n, m = len(s), len(p)
+            result = []
+
+            p_count = Counter(p)
+
+            for i in range(n - m + 1):
+
+                window = s[i:i + m]
+                if Counter(window) == p_count:
+                    result.append(i)
+
+            return result
+
+    Time Complexity: O(n * m)
+    Space Complexity: O(m)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recomputes frequency for every window
+    - Repeated substring slicing is expensive
+    - Not optimal for large strings
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use sliding window with frequency count to maintain character balance efficiently.
+
+    Steps:
+    1. Build frequency map for p
+    2. Use sliding window of size m on s
+    3. Update counts dynamically while moving window
+    4. Compare frequency maps
+
+    Python Code:
+
+    class Solution:
+        def findAnagrams(self, s, p):
+
+            from collections import Counter
+
+            n, m = len(s), len(p)
+            if n < m:
+                return []
+
+            p_count = Counter(p)
+            window_count = Counter()
+
+            result = []
+
+            for i in range(n):
+
+                window_count[s[i]] += 1
+
+                if i >= m:
+                    left_char = s[i - m]
+                    window_count[left_char] -= 1
+                    if window_count[left_char] == 0:
+                        del window_count[left_char]
+
+                if window_count == p_count:
+                    result.append(i - m + 1)
+
+            return result
+
+    Time Complexity: O(n)
+    Space Complexity: O(1) (fixed alphabet size)
+
+    Why It Works?
+    Because:
+    - Maintains rolling frequency instead of recomputing
+    - Sliding window ensures linear traversal
+    - Efficient comparison of character counts
