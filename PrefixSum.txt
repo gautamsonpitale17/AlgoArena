@@ -1,0 +1,473 @@
+✅1. Find Pivot Index (Prefix Sum)
+
+    Explanation: Find the pivot index where the sum of all elements to the left is equal to the sum of all elements to the right. Return the leftmost pivot index. If no pivot exists, return -1.
+
+    Input: nums = [1,7,3,6,5,6]
+
+    Output: 3
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Can there be multiple pivot indices?
+    3. Should we return the leftmost pivot index?
+    4. Can the array be empty?
+    5. What should be returned if no pivot exists?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: For every index, calculate left sum and right sum separately.
+
+    Steps:
+    1. Iterate through each index
+    2. Compute sum of elements on the left
+    3. Compute sum of elements on the right
+    4. Return index if both sums are equal
+
+    Python Code:
+
+    class Solution:
+        def pivotIndex(self, nums):
+
+            n = len(nums)
+
+            for i in range(n):
+
+                left_sum = sum(nums[:i])
+                right_sum = sum(nums[i + 1:])
+
+                if left_sum == right_sum:
+                    return i
+
+            return -1
+
+    Time Complexity: O(n^2)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recalculates sums repeatedly
+    - Uses slicing and summation for every index
+    - Slow for large arrays
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use total sum and running left sum to calculate right sum in O(1).
+
+    Steps:
+    1. Compute total sum of array
+    2. Maintain running left sum
+    3. Calculate right sum using total_sum - left_sum - current_element
+    4. Return first index where left sum equals right sum
+
+    Python Code:
+
+    class Solution:
+        def pivotIndex(self, nums):
+
+            total_sum = sum(nums)
+            left_sum = 0
+
+            for i in range(len(nums)):
+
+                right_sum = total_sum - left_sum - nums[i]
+
+                if left_sum == right_sum:
+                    return i
+
+                left_sum += nums[i]
+
+            return -1
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Computes total sum only once
+    - Maintains running left sum efficiently
+    - Calculates right sum in constant time
+
+❌2. Range Sum Query - Immutable (Prefix Sum)
+
+    Explanation: Design a data structure that can return the sum of elements between indices left and right (inclusive) efficiently for multiple queries.
+
+    Input:
+    nums = [-2,0,3,-5,2,-1]
+    sumRange(0,2)
+
+    Output:
+    1
+
+    Clarifying Questions For Interviewer:
+    1. Will the array be modified after initialization?
+    2. Can there be many sumRange queries?
+    3. Can the array contain negative numbers?
+    4. Are left and right always valid indices?
+    5. Should each query be optimized for speed?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: For every query, iterate through the specified range and calculate the sum.
+
+    Steps:
+    1. Store the original array
+    2. For each query, traverse from left to right
+    3. Return the calculated sum
+
+    Python Code:
+
+    class NumArray:
+
+        def __init__(self, nums):
+
+            self.nums = nums
+
+        def sumRange(self, left, right):
+
+            total = 0
+
+            for i in range(left, right + 1):
+                total += self.nums[i]
+
+            return total
+
+    Time Complexity: O(n) per query
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recalculates sums for every query
+    - Slow when many queries are performed
+    - Repeatedly traverses same elements
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Build a prefix sum array so each query can be answered in O(1).
+
+    Steps:
+    1. Create prefix sum array during initialization
+    2. Store cumulative sums
+    3. Use prefix sums to calculate range sum instantly
+
+    Python Code:
+
+    class NumArray:
+
+        def __init__(self, nums):
+
+            self.prefix = [0]
+
+            for num in nums:
+                self.prefix.append(self.prefix[-1] + num)
+
+        def sumRange(self, left, right):
+
+            return self.prefix[right + 1] - self.prefix[left]
+
+    Time Complexity: O(n) initialization, O(1) per query
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Precomputes cumulative sums once
+    - Answers each query in constant time
+    - Eliminates repeated summation work
+
+✅3. Running Sum of 1d Array (Prefix Sum)
+
+    Explanation: Given an array nums, return the running sum where each element at index i is the sum of all elements from index 0 to i.
+
+    Input: nums = [1,2,3,4]
+
+    Output: [1,3,6,10]
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Can the input array be empty?
+    3. Should we modify the original array or return a new one?
+    4. Are there any constraints on array size?
+    5. Is the running sum inclusive of the current element?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: For each index, calculate the sum from index 0 to the current index.
+
+    Steps:
+    1. Iterate through each index
+    2. Compute sum from start to current position
+    3. Store the result
+
+    Python Code:
+
+    class Solution:
+        def runningSum(self, nums):
+
+            result = []
+
+            for i in range(len(nums)):
+                result.append(sum(nums[:i + 1]))
+
+            return result
+
+    Time Complexity: O(n^2)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Recalculates previous sums repeatedly
+    - Uses slicing for every index
+    - Inefficient for large arrays
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Maintain a cumulative sum while traversing the array once.
+
+    Steps:
+    1. Initialize running total as 0
+    2. Add current element to running total
+    3. Store running total in result array
+
+    Python Code:
+
+    class Solution:
+        def runningSum(self, nums):
+
+            result = []
+            running_total = 0
+
+            for num in nums:
+                running_total += num
+                result.append(running_total)
+
+            return result
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Each element is processed once
+    - Avoids repeated summation
+    - Efficient cumulative sum calculation
+
+✅4. Subarray Sum Equals K (Prefix Sum + Hash Map)
+
+    Explanation: Given an integer array nums and an integer k, return the total number of continuous subarrays whose sum equals k.
+
+    Input: nums = [1,1,1], k = 2
+
+    Output: 2
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Can there be multiple valid subarrays?
+    3. Should we return the count or the subarrays themselves?
+    4. Can the array be empty?
+    5. Are duplicate values allowed?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Generate all possible subarrays and check their sums.
+
+    Steps:
+    1. Select every possible starting index
+    2. Extend the subarray to every possible ending index
+    3. Count subarrays whose sum equals k
+
+    Python Code:
+
+    class Solution:
+        def subarraySum(self, nums, k):
+
+            count = 0
+
+            for i in range(len(nums)):
+
+                current_sum = 0
+
+                for j in range(i, len(nums)):
+
+                    current_sum += nums[j]
+
+                    if current_sum == k:
+                        count += 1
+
+            return count
+
+    Time Complexity: O(n^2)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Checks all possible subarrays
+    - Nested loops increase runtime
+    - Slow for large inputs
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:   
+    Use prefix sums and a hash map to quickly find previous sums that form k.
+
+    Steps:
+    1. Maintain running prefix sum
+    2. Store frequency of each prefix sum in a hash map
+    3. Check if (current_sum - k) exists in the map
+    4. Add its frequency to the answer
+
+    Python Code:
+
+    class Solution:
+        def subarraySum(self, nums, k):
+
+            prefix_count = {0: 1}
+            current_sum = 0
+            count = 0
+
+            for num in nums:
+
+                current_sum += num
+
+                if current_sum - k in prefix_count:
+                    count += prefix_count[current_sum - k]
+
+                prefix_count[current_sum] = prefix_count.get(current_sum, 0) + 1
+
+            return count
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Works?
+    Because:
+    - Uses prefix sums to avoid recomputing subarray sums
+    - Hash map provides constant-time lookups
+    - Counts all valid subarrays in one traversal
+
+❌5. Continuous Subarray Sum (Prefix Sum + Hash Map)
+
+    Explanation: Given an integer array nums and an integer k, determine if the array has a continuous subarray of size at least 2 whose sum is a multiple of k.
+
+    Input: nums = [23,2,4,6,7], k = 6
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Can the array contain negative numbers?
+    2. Is k always positive?
+    3. What should happen if k is 0?
+    4. Does the subarray need to have at least two elements?
+    5. Should we return True/False only?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Generate all subarrays of length at least 2 and check whether their sum is a multiple of k.
+
+    Steps:
+    1. Try every starting index
+    2. Extend subarray to every ending index
+    3. Check if subarray length is at least 2 and sum % k == 0
+
+    Python Code:
+
+    class Solution:
+        def checkSubarraySum(self, nums, k):
+
+            n = len(nums)
+
+            for i in range(n):
+
+                current_sum = 0
+
+                for j in range(i, n):
+
+                    current_sum += nums[j]
+
+                    if j - i + 1 >= 2:
+
+                        if k == 0:
+                            if current_sum == 0:
+                                return True
+                        else:
+                            if current_sum % k == 0:
+                                return True
+
+            return False
+
+    Time Complexity: O(n^2)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Checks all possible subarrays
+    - Nested loops increase runtime
+    - Too slow for large arrays
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    If two prefix sums have the same remainder when divided by k, the subarray between them has a sum that is a multiple of k.
+
+    Steps:
+    1. Maintain running prefix sum
+    2. Compute remainder of prefix sum with k
+    3. Store first occurrence of each remainder
+    4. If same remainder appears again with distance at least 2, return True
+
+    Python Code:
+
+    class Solution:
+        def checkSubarraySum(self, nums, k):
+
+            remainder_index = {0: -1}
+            prefix_sum = 0
+
+            for i in range(len(nums)):
+
+                prefix_sum += nums[i]
+
+                if k != 0:
+                    remainder = prefix_sum % k
+                else:
+                    remainder = prefix_sum
+
+                if remainder in remainder_index:
+
+                    if i - remainder_index[remainder] >= 2:
+                        return True
+
+                else:
+                    remainder_index[remainder] = i
+
+            return False
+
+    Time Complexity: O(n)
+    Space Complexity: O(min(n, k))
+
+    Why It Works?
+    Because:
+    - Uses prefix sum remainders to identify valid subarrays
+    - Hash map enables constant-time lookup
+    - Finds answer in a single traversal
