@@ -1,0 +1,494 @@
+✅1. Reverse Linked List (Linked List / Iterative Pointers)
+
+    Explanation: Reverse a singly linked list and return the new head of the reversed list.
+
+    Input: head = [1,2,3,4,5]
+
+    Output: [5,4,3,2,1]
+
+    Clarifying Questions For Interviewer:
+    1. Is the linked list singly or doubly linked?
+    2. Can the linked list be empty?
+    3. Should the reversal be done in-place?
+    4. Are recursive solutions allowed?
+    5. What should be returned for an empty list?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store node values in an array and rebuild the values in reverse order.
+
+    Steps:
+    1. Traverse linked list and store values
+    2. Reverse the stored values
+    3. Traverse again and update node values
+
+    Python Code:
+
+    class Solution:
+        def reverseList(self, head):
+
+            values = []
+
+            current = head
+
+            while current:
+                values.append(current.val)
+                current = current.next
+
+            current = head
+
+            for value in reversed(values):
+                current.val = value
+                current = current.next
+
+            return head
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra array space
+    - Does not actually reverse node links
+    - Additional memory is required
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Reverse the next pointers one by one while traversing the list.
+
+    Steps:
+    1. Initialize prev as None
+    2. Traverse the linked list
+    3. Reverse current node's next pointer
+    4. Move all pointers forward
+    5. Return prev as new head
+
+    Python Code:
+
+    class Solution:
+        def reverseList(self, head):
+
+            prev = None
+            current = head
+
+            while current:
+
+                next_node = current.next
+                current.next = prev
+
+                prev = current
+                current = next_node
+
+            return prev
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Reverses links directly
+    - Uses constant extra space
+    - Visits each node exactly once
+
+✅2. Middle of the Linked List (Fast and Slow Pointers)
+
+    Explanation: Given the head of a singly linked list, return the middle node. If there are two middle nodes, return the second middle node.
+
+    Input: head = [1,2,3,4,5]
+
+    Output: [3,4,5]
+
+    Clarifying Questions For Interviewer:v      
+    1. Can the linked list be empty?
+    2. Should we return the middle node or its value?
+    3. What should be returned if there are two middle nodes?
+    4. Is the linked list singly or doubly linked?
+    5. Are recursive solutions allowed?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: First count the total number of nodes, then move to the middle node.
+
+    Steps:
+    1. Traverse the list and count nodes
+    2. Calculate middle position as count // 2
+    3. Traverse again to reach the middle node
+    4. Return the middle node
+
+    Python Code:
+
+    class Solution:
+        def middleNode(self, head):
+
+            count = 0
+            current = head
+
+            while current:
+                count += 1
+                current = current.next
+
+            middle = count // 2
+            current = head
+
+            for _ in range(middle):
+                current = current.next
+
+            return current
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Requires two traversals
+    - Extra work for counting nodes
+    - Not the most optimal approach
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers where slow moves one step and fast moves two steps.
+
+    Steps:
+    1. Initialize slow and fast at head
+    2. Move slow by one node
+    3. Move fast by two nodes
+    4. When fast reaches the end, slow is at the middle
+    5. Return slow
+
+    Python Code:
+
+    class Solution:
+        def middleNode(self, head):
+
+            slow = head
+            fast = head
+
+            while fast and fast.next:
+
+                slow = slow.next
+                fast = fast.next.next
+
+            return slow
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Finds middle in a single traversal
+    - Uses two-pointer technique efficiently
+    - Returns second middle node automatically for even-length lists
+
+✅3. Linked List Cycle (Fast and Slow Pointers / Floyd's Cycle Detection)
+
+    Explanation: Determine whether a linked list contains a cycle. Return True if a cycle exists, otherwise return False.
+
+    Input: head = [3,2,0,-4], pos = 1
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Should we return True/False only?
+    2. Can the linked list be empty?
+    3. Is the list singly linked?
+    4. Are we allowed to modify the linked list?
+    5. Is extra space allowed?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store visited nodes in a hash set. If a node is seen again, a cycle exists.
+
+    Steps:
+    1. Create an empty set
+    2. Traverse the linked list
+    3. Check whether current node was already visited
+    4. Return True if found, otherwise continue
+
+    Python Code:
+
+    class Solution:
+        def hasCycle(self, head):
+
+            visited = set()
+            current = head
+
+            while current:
+
+                if current in visited:
+                    return True
+
+                visited.add(current)
+                current = current.next
+
+            return False
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Requires extra memory
+    - Stores every visited node
+    - Space usage grows with list size
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use two pointers where slow moves one step and fast moves two steps. If a cycle exists, they will eventually meet.
+
+    Steps:
+    1. Initialize slow and fast pointers
+    2. Move slow by one node
+    3. Move fast by two nodes
+    4. If they meet, cycle exists
+    5. If fast reaches the end, no cycle exists
+
+    Python Code:
+
+    class Solution:
+        def hasCycle(self, head):
+
+            slow = head
+            fast = head
+
+            while fast and fast.next:
+
+                slow = slow.next
+                fast = fast.next.next
+
+                if slow == fast:
+                    return True
+
+            return False
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Fast pointer gains one node per iteration on slow pointer
+    - They must meet if a cycle exists
+    - Uses constant extra space
+
+✅4. Palindrome Linked List (Fast and Slow Pointers + Reverse Linked List)
+
+    Explanation: Determine whether a linked list reads the same forward and backward.
+
+    Input: head = [1,2,2,1]
+
+    Output: True
+
+    Clarifying Questions For Interviewer:
+    1. Can the linked list be empty?
+    2. Should we return True/False only?
+    3. Is modifying the linked list allowed?
+    4. Is extra space allowed?
+    5. Is the list singly linked?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store all node values in an array and check if the array is a palindrome.
+
+    Steps:
+    1. Traverse the linked list and store values
+    2. Compare the array with its reverse
+    3. Return the result
+
+    Python Code:
+
+    class Solution:
+        def isPalindrome(self, head):
+
+            values = []
+            current = head
+
+            while current:
+                values.append(current.val)
+                current = current.next
+
+            return values == values[::-1]
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra array space
+    - Requires storing all node values
+    - Not constant-space solution
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Find the middle of the linked list, reverse the second half, then compare both halves.
+
+    Steps:
+    1. Find middle using slow and fast pointers
+    2. Reverse second half of the list
+    3. Compare first half and reversed second half
+    4. Return False if mismatch is found
+    5. Return True otherwise
+
+    Python Code:
+
+    class Solution:
+        def isPalindrome(self, head):
+
+            slow = head
+            fast = head
+
+            while fast and fast.next:
+                slow = slow.next
+                fast = fast.next.next
+
+            prev = None
+
+            while slow:
+                next_node = slow.next
+                slow.next = prev
+                prev = slow
+                slow = next_node
+
+            left = head
+            right = prev
+
+            while right:
+
+                if left.val != right.val:
+                    return False
+
+                left = left.next
+                right = right.next
+
+            return True
+
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Finds middle in one pass
+    - Reverses only half of the list
+    - Compares corresponding nodes directly
+    - Uses constant extra space
+
+✅5. Remove Linked List Elements (Linked List Traversal)
+
+    Explanation: Remove all nodes from the linked list that have a value equal to the given target value.
+
+    Input: head = [1,2,6,3,4,5,6], val = 6
+
+    Output: [1,2,3,4,5]
+
+    Clarifying Questions For Interviewer:
+    1. Can the linked list be empty?
+    2. Can multiple nodes have the target value?
+    3. Can the head node itself need to be removed?
+    4. Should the list be modified in-place?
+    5. Should we return the new head?
+
+    ==================================================
+
+    BRUTE-FORCE
+
+    Idea: Store all valid values in an array and rebuild a new linked list.
+
+    Steps:
+    1. Traverse the linked list
+    2. Store values that are not equal to target
+    3. Create a new linked list from stored values
+    4. Return the new head
+
+    Python Code:
+
+    class Solution:
+        def removeElements(self, head, val):
+
+            values = []
+            current = head
+
+            while current:
+
+                if current.val != val:
+                    values.append(current.val)
+
+                current = current.next
+
+            dummy = ListNode(0)
+            tail = dummy
+
+            for num in values:
+                tail.next = ListNode(num)
+                tail = tail.next
+
+            return dummy.next
+
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+
+    Why It Won't Work Efficiently?
+    Because:
+    - Uses extra memory
+    - Creates a new linked list
+    - Does not reuse existing nodes
+
+    ==================================================
+
+    OPTIMAL
+
+    Idea:
+    Use a dummy node and remove matching nodes while traversing the list.
+
+    Steps:
+    1. Create a dummy node before head
+    2. Traverse the linked list
+    3. Skip nodes whose value equals target
+    4. Keep valid nodes connected
+    5. Return dummy.next
+
+    Python Code:
+
+    class Solution:
+        def removeElements(self, head, val):
+
+            dummy = ListNode(0)
+            dummy.next = head
+
+            current = dummy
+
+            while current and current.next:
+
+                if current.next.val == val:
+                    current.next = current.next.next
+                else:
+                    current = current.next
+
+            return dummy.next
+
+    Time Complexity: O(n)r
+    Space Complexity: O(1)
+
+    Why It Works?
+    Because:
+    - Traverses the list only once
+    - Removes nodes in-place
+    - Dummy node handles head removals cleanly
+    - Uses constant extra space
